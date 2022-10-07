@@ -10,7 +10,7 @@ known_valences = {
 
 
 class ChemicalCompound:
-    def __init__(self, formulas: list[str]):
+    def __init__(self, formulas: list):
         self.formula = ""
         self.elements = {}  # {element : count, ... }
         for formula in formulas:
