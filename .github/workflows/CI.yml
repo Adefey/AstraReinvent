@@ -1,0 +1,19 @@
+ name: CI
+ on: [push, pull_request]
+ jobs:
+  MainCI:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: install_system
+        run: |
+          sudo apt update
+          sudo apt install python
+      - name: run
+        run: make
+      - name: save_artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: htmlcov
+          path: ./htmlcov

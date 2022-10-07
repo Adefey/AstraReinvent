@@ -10,7 +10,6 @@ format: $(PYTHON_CODE)
 	black $(PYTHON_CODE) --line-length 79
 
 check: $(PYTHON_CODE)
-	#flake8 $(PYTHON_CODE)
 	pylint $(PYTHON_CODE) --disable=missing-module-docstring,missing-function-docstring,missing-class-docstring,wrong-import-position
 
 test_coverage: $(PYTHON_CODE)
