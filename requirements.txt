@@ -1,8 +1,8 @@
 # needed for program logic
-mendeleev == 0.11.0
-chemparse == 0.1.2
-numpy == 1.22.0
+mendeleev
+chemparse
+numpy
 # needed for testing/CI
-black == 22.8.0
-pylint == 2.15.3
-coverage == 6.4.4
+black
+pylint
+coverage
