@@ -2,6 +2,7 @@
 mendeleev
 chemparse
 numpy
+scipy
 # needed for testing/CI
 black
 pylint
