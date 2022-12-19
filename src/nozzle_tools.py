@@ -31,7 +31,7 @@ class gas_functions:
         return w_critical
 
     def gas_speed(R, T_chamber, k, p, p_chamber):
-        w = math.sqrt(2*R*T_chamber*k/(k-1)*(1-(p/p_chamber)**(k-1)/k))
+        w = math.sqrt(2*R*T_chamber*k/(k-1)*(1-(p/p_chamber)**((k-1)/k)))
         return w
 
     def get_lambda_by_p(R, T_chamber, k, p, p_chamber):
@@ -49,7 +49,7 @@ class gas_functions:
     def get_q_by_p(R, T_chamber, k, p, p_chamber):
         lamb = gas_functions.get_lambda_by_p(R, T_chamber, k, p, p_chamber)
         eps = gas_functions.gdf_eps_lambda(lamb, k)
-        return lamb*eps
+        return lamb*eps*((k+1)/2)**(1/(k-1))
 
 
 class Nozzle:
@@ -59,22 +59,22 @@ class Nozzle:
         self.k = kwargs["k"]
         self.R = kwargs["R"]
         self.m = kwargs["m"]
-        self.rho = kwargs["rho"]
+        self.rho = self.p_chamber / (self.R * self.T_chamber)
 
-    def calculate_A_k(self, k):
-        A_k = math.sqrt(k*(2/(k+1))**((k+1)/(k-1)))
-        return A_k
+    def calculate_A_k(self):
+        self.A_k = math.sqrt(self.k*(2/(self.k+1))**((self.k+1)/(self.k-1)))
+        return self.A_k
 
-    def calculate_F_critical(self, R, T, m, A_k, p_chamber):
-        F_critical = (math.sqrt(R*T)*m)/(A_k*p_chamber)
-        return F_critical
+    def calculate_F_critical(self):
+        self.F_critical = (math.sqrt(self.R*self.T_chamber)
+                           * self.m)/(self.A_k*self.p_chamber)
+        return self.F_critical
 
     def calculate_gas_params_p(self, p_outers):
         '''Result: lambda, Mach, W, p, T, rho, q, F'''
         result = []
-        A_k = self.calculate_A_k(self.k)
-        F_critical = self.calculate_F_critical(
-            self.R, self.T_chamber, self.m, A_k, self.p_chamber)
+        A_k = self.calculate_A_k()
+        F_critical = self.calculate_F_critical()
         for p in p_outers:
             lamb = gas_functions.get_lambda_by_p(
                 self.R, self.T_chamber, self.k, p, self.p_chamber)
